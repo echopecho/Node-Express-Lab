@@ -15,6 +15,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    let post = await db.findById(id);
+    post 
+      ? res.status(201).send(post)
+      : res.status(404).json({error: "The post with the specified ID does not exist."})
+    
+  } catch (e) {
+    res.status(500).json({error: "The post information could not be retrieved."});
+  }
+})
+
 router.post('/', async (req, res) => {
   const newMessage = req.body;
 
@@ -27,6 +41,7 @@ router.post('/', async (req, res) => {
     } else {
       res.status(400).json({errorMessage: 'Please provide title and contents for the post'})
     }
+
   } catch (e) {
     res.status(500).json({error: 'There was an error while saving the post to the database'})
   }
