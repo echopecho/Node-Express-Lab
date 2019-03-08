@@ -8,6 +8,7 @@ router.use(express.json());
 
 router.get('/', async (req, res) => {
   const posts = await db.find();
+  console.log('hmm')
   try {
     res.status(200).send(posts);
   } catch (e) {
